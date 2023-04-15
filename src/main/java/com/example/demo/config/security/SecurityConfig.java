@@ -28,17 +28,17 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         this.enableUnsecuredAccessToH2Console(http);
 
-        http
-            .formLogin()
+        http.authorizeHttpRequests()
+            .requestMatchers("/h2/**").permitAll()
+            .anyRequest().authenticated();
+
+        http.formLogin()
+            .loginProcessingUrl("/login")
             .defaultSuccessUrl("/swagger-ui/index.html")
             .and()
             .logout()
             .logoutUrl("/logout")
-            .addLogoutHandler(new HeaderWriterLogoutHandler(new ClearSiteDataHeaderWriter(CACHE, COOKIES, STORAGE)))
-            .and()
-            .authorizeHttpRequests()
-            .requestMatchers("/h2/**").permitAll()
-            .anyRequest().authenticated();
+            .addLogoutHandler(new HeaderWriterLogoutHandler(new ClearSiteDataHeaderWriter(CACHE, COOKIES, STORAGE)));
 
         return http.build();
     }
