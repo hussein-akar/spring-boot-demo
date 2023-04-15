@@ -6,7 +6,7 @@ What used in this project?
 1. Spring Security 
 2. Flyway migrations
 3. H2 DB 
-4. JPA (namedParameterJdbcTemplate, JPQL, and map to interface)
+4. JPA (namedParameterJdbcTemplate, JPQL, and map to interface) & PageabelAndSorting
 5. Event Listeners & Transactions
 6. Unit and Integration testing
 7. Factory & Builder Patterns
