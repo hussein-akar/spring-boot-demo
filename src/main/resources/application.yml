@@ -1,8 +1,18 @@
+application:
+  dev-mode: true
+
+  database:
+    url: jdbc:h2:file:~/test
+    username: sa
+    password: sa
+    schema: spring_boot_demo_2
+
 spring:
   jpa:
     open-in-view: false
 
     hibernate:
+      ddl-auto: none
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 
@@ -12,10 +22,19 @@ spring:
       path: /h2
 
   datasource:
-    url: jdbc:h2:mem:spring_boot_demo
-    username: sa
-    password: sa
+    url: ${application.database.url}
+    username: ${application.database.username}
+    password: ${application.database.password}
     driverClassName: org.h2.Driver
+    hikari:
+      schema: ${application.database.schema}
+
+  flyway:
+    enabled: true
+    url: ${application.database.url}
+    user: ${application.database.username}
+    password: ${application.database.password}
+    schemas: ${application.database.schema}
 
 logging:
   level:
