@@ -19,4 +19,9 @@ public class ExceptionHandlerAdvice {
     public ResponseEntity<Object> handleForbiddenException(ForbiddenException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
     }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<Object> handle(RuntimeException ex) {
+        return new ResponseEntity<>("Sorry, something went wrong!!", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

@@ -6,6 +6,5 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface CreateCompanyService {
 
-    @Transactional
     CompanyResponse execute(CreateCompanyPayload payload);
 }

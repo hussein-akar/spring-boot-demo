@@ -1,5 +1,6 @@
 package com.example.demo.dto.payload;
 
+import com.example.demo.notification.enums.NotificationType;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -19,4 +20,7 @@ public class CreateCompanyPayload {
 
     @Length(max = 10)
     private String acronym;
+
+    @NotNull
+    private NotificationType notificationType;
 }

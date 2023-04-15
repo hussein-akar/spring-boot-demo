@@ -6,11 +6,13 @@ import com.example.demo.domain.Company;
 import com.example.demo.domain.Country;
 import com.example.demo.dto.payload.CreateCompanyPayload;
 import com.example.demo.dto.response.CompanyResponse;
+import com.example.demo.event.CompanyCreatedEvent;
 import com.example.demo.mapper.CompanyMapper;
 import com.example.demo.repository.CompanyRepository;
 import com.example.demo.repository.CountryRepository;
 import com.example.demo.service.company.CreateCompanyService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +23,8 @@ public class CreateCompanyServiceImpl implements CreateCompanyService {
     private final CountryRepository countryRepository;
     private final CompanyRepository companyRepository;
 
+    private final ApplicationEventPublisher applicationEventPublisher;
+
     @Override
     @Transactional
     public CompanyResponse execute(CreateCompanyPayload payload) {
@@ -30,6 +34,8 @@ public class CreateCompanyServiceImpl implements CreateCompanyService {
 
         Company company = new Company.CompanyBuilder(country, payload.getName()).withAcronym(payload.getAcronym()).build();
         companyRepository.save(company);
+
+        applicationEventPublisher.publishEvent(new CompanyCreatedEvent(company.getId(), payload.getNotificationType()));
 
         return CompanyMapper.toCompanyResponse(company);
     }
